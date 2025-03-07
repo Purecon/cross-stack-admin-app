@@ -1,4 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
 import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
 import { Construct } from 'constructs';
@@ -39,9 +40,9 @@ export class cdkStack extends cdk.Stack {
 
     // Dummy Resource to avoid "At least one Resources member must be defined" error
     // Create a dummy wait resource
-    new cdk.CfnResource(this, 'DummyResource', {
-      type: 'AWS::CloudFormation::WaitConditionHandle'
-    });
+    // new cdk.CfnResource(this, 'DummyResource', {
+    //   type: 'AWS::CloudFormation::WaitConditionHandle'
+    // });
 
     //Access other Amplify resource
     const dependencies: AmplifyDependentResourcesAttributes =
@@ -63,6 +64,27 @@ export class cdkStack extends cdk.Stack {
     const importedApiArn = cdk.Fn.importValue(`GraphQLAPIArn-${importName}`);
     const importedLambdaArn = cdk.Fn.importValue(`LambdaArn-${importName}`);
     const importedLayerArn = cdk.Fn.importValue(`LayerArn-${importName}`);
+
+    //Create custom configuration
+    const testAdminFunctionRoleArn = cdk.Fn.ref(
+      dependencies.function.testAdminFunction.LambdaExecutionRoleArn
+    );
+    // Create an IAM role object for policy attachment
+    const testAdminFunctionRole = iam.Role.fromRoleArn(
+      this,
+      "TestAdminFunctionRole",
+      testAdminFunctionRoleArn,
+      { mutable: true } // Allows modification
+    );
+    
+    // Add policy allowing `testAdminFunction` to use the imported Layer ARN
+    testAdminFunctionRole.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ["lambda:GetLayerVersion"],
+        resources: [importedLayerArn],
+      })
+    );
 
     //Output the ARN name to show in CloudFormation output
     new cdk.CfnOutput(this, 'importedAPIArn', {
