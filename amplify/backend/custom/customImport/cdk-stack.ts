@@ -57,12 +57,24 @@ export class cdkStack extends cdk.Stack {
       ]
     );
 
+    //Import the ARN from the target project
     const importedProjectInfo = {projectName: projectNameParam.valueAsString, envName: projectEnvParam.valueAsString};
     const importName = `${importedProjectInfo.projectName}-${importedProjectInfo.envName}`;
-    const importedApiArn = cdk.Fn.importValue(`LayerArn-${importName}`);
+    const importedApiArn = cdk.Fn.importValue(`GraphQLAPIArn-${importName}`);
+    const importedLambdaArn = cdk.Fn.importValue(`LambdaArn-${importName}`);
+    const importedLayerArn = cdk.Fn.importValue(`LayerArn-${importName}`);
 
-    new cdk.CfnOutput(this, 'importedLayerArn', {
+    //Output the ARN name to show in CloudFormation output
+    new cdk.CfnOutput(this, 'importedAPIArn', {
       value: importedApiArn,
+      description: `Imported GraphQL API Arn`,
+    });
+    new cdk.CfnOutput(this, 'importedLambdaArn', {
+      value: importedLambdaArn,
+      description: `Imported LambdaArn`,
+    });
+    new cdk.CfnOutput(this, 'importedLayerArn', {
+      value: importedLayerArn,
       description: `Imported LayerArn`,
     });
   }
