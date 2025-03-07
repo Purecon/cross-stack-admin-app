@@ -17,6 +17,9 @@
           "deploymentBucketName": "amplify-crossstackadminapp-dev-4d85d-deployment",
           "s3Key": "amplify-builds/testAdminFunction-2f5152534670534a5436-build.zip"
         }
+      },
+      "custom": {
+        "customImport": {}
       }
     }
   }

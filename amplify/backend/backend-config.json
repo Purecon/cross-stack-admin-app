@@ -1,4 +1,10 @@
 {
+  "custom": {
+    "customImport": {
+      "providerPlugin": "awscloudformation",
+      "service": "customCDK"
+    }
+  },
   "function": {
     "testAdminFunction": {
       "build": true,
