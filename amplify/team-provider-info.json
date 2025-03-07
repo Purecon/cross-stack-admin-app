@@ -10,6 +10,14 @@
       "StackName": "amplify-crossstackadminapp-dev-4d85d",
       "StackId": "arn:aws:cloudformation:ap-northeast-1:975050288978:stack/amplify-crossstackadminapp-dev-4d85d/152e9e50-faeb-11ef-b994-06c1697baeb3",
       "AmplifyAppId": "dfivcc2yep065"
+    },
+    "categories": {
+      "function": {
+        "testAdminFunction": {
+          "deploymentBucketName": "amplify-crossstackadminapp-dev-4d85d-deployment",
+          "s3Key": "amplify-builds/testAdminFunction-2f5152534670534a5436-build.zip"
+        }
+      }
     }
   }
 }

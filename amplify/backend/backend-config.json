@@ -1,1 +1,27 @@
-{}
+{
+  "function": {
+    "testAdminFunction": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_testAdminFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "testAdminFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_testAdminFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "testAdminFunction"
+        }
+      ]
+    }
+  }
+}
