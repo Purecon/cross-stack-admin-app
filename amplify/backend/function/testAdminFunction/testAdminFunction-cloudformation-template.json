@@ -140,6 +140,13 @@
             {
               "Effect": "Allow",
               "Action": [
+                "lambda:GetLayerVersionPolicy"
+              ],
+              "Resource": { "Fn::ImportValue": "LayerArn-crossstackuserapp-dev"}
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
                 "logs:CreateLogGroup",
                 "logs:CreateLogStream",
                 "logs:PutLogEvents"
