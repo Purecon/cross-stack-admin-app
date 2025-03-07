@@ -1,8 +1,9 @@
 export type AmplifyDependentResourcesAttributes = {
   "custom": {
     "customImport": {
-      "CustomParamOutput": "string",
-      "importedLayerArn": "string"
+      "importedLayerArn": "string",
+      "importedProjectEnv": "string",
+      "importedProjectName": "string"
     }
   },
   "function": {

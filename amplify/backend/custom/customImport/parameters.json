@@ -1,3 +1,4 @@
 {
-    "CustomParam": "MyValueFromCloudFormation"
+    "ImportedProjectName": "crossstackuserapp",
+    "ImportedProjectEnv": "dev"
 }

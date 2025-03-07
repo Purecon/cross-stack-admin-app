@@ -17,17 +17,25 @@ export class cdkStack extends cdk.Stack {
     });
     /* AWS CDK code goes here - learn more: https://docs.aws.amazon.com/cdk/latest/guide/home.html */
     
-    // Stack Param
-    const customParam = new cdk.CfnParameter(this, 'CustomParam', {
+    // Get stack parameter about imported project
+    // Edit ./parameters.json
+    const projectNameParam = new cdk.CfnParameter(this, 'ImportedProjectName', {
       type: 'String',
-      description: 'A custom parameter from CloudFormation',
+      description: 'Target imported project name',
     });
-
-    new cdk.CfnOutput(this, 'CustomParamOutput', {
-      value: customParam.valueAsString,
-      description: 'The custom parameter passed from CloudFormation',
+    const projectEnvParam = new cdk.CfnParameter(this, 'ImportedProjectEnv', {
+      type: 'String',
+      description: 'Target imported project environment',
     });
-
+    // Output the stack parameter
+    new cdk.CfnOutput(this, 'importedProjectName', {
+      value: projectNameParam.valueAsString,
+      description: `Imported project name`,
+    });
+    new cdk.CfnOutput(this, 'importedProjectEnv', {
+      value: projectEnvParam.valueAsString,
+      description: `Imported project env`,
+    });
 
     // Dummy Resource to avoid "At least one Resources member must be defined" error
     // Create a dummy wait resource
@@ -35,13 +43,27 @@ export class cdkStack extends cdk.Stack {
       type: 'AWS::CloudFormation::WaitConditionHandle'
     });
 
-    const importedProjectInfo = {projectName: 'crossstackuserapp', envName: 'dev'};
+    //Access other Amplify resource
+    const dependencies: AmplifyDependentResourcesAttributes =
+      AmplifyHelpers.addResourceDependency(
+      this,
+      amplifyResourceProps.category,
+      amplifyResourceProps.resourceName,
+      [
+        {
+          category: "function",
+          resourceName: "testAdminFunction", 
+        },
+      ]
+    );
+
+    const importedProjectInfo = {projectName: projectNameParam.valueAsString, envName: projectEnvParam.valueAsString};
     const importName = `${importedProjectInfo.projectName}-${importedProjectInfo.envName}`;
     const importedApiArn = cdk.Fn.importValue(`LayerArn-${importName}`);
 
     new cdk.CfnOutput(this, 'importedLayerArn', {
       value: importedApiArn,
-      description: `Imported LayerArn-${importName}`,
+      description: `Imported LayerArn`,
     });
   }
 }

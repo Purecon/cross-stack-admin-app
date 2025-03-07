@@ -1,6 +1,19 @@
 {
   "custom": {
     "customImport": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "Region",
+            "LambdaExecutionRole",
+            "LambdaExecutionRoleArn"
+          ],
+          "category": "function",
+          "resourceName": "testAdminFunction"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "customCDK"
     }
